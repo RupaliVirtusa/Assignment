@@ -69,6 +69,12 @@ dependencies {
     debugImplementation 'androidx.compose.ui:ui-tooling'
     debugImplementation 'androidx.compose.ui:ui-test-manifest'
 
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    testImplementation 'org.mockito:mockito-core:3.0.0'
+    testImplementation "org.mockito:mockito-inline:3.0.0"
+
+    androidTestImplementation 'org.mockito:mockito-android:2.24.5'
+
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     def appcompat_version = "1.6.1"
     implementation "androidx.appcompat:appcompat:$appcompat_version"
