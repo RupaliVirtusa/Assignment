@@ -1,9 +1,9 @@
 package com.assignment.codingassignment.di
 
 import com.assignment.codingassignment.network.RecipeService
-import com.assignment.codingassignment.repository.RecipeRepository
-import com.assignment.codingassignment.repository.RecipeRepository_Impl
 import com.assignment.codingassignment.network.model.RecipeDtoMapper
+import com.assignment.codingassignment.repository.RecipeRepository
+import com.assignment.codingassignment.repository.RecipeRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,6 +20,6 @@ object RepositoryModule {
         recipeService: RecipeService,
         recipeDtoMapper: RecipeDtoMapper
     ): RecipeRepository {
-        return RecipeRepository_Impl(recipeService, recipeDtoMapper)
+        return RecipeRepositoryImpl(recipeService)
     }
 }

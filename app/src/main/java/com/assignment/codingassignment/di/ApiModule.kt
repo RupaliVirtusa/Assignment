@@ -2,6 +2,7 @@ package com.assignment.codingassignment.di
 
 import com.assignment.codingassignment.network.Constants
 import com.assignment.codingassignment.network.RecipeService
+import com.assignment.codingassignment.network.model.RecipeDtoMapper
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -15,6 +16,12 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object ApiModule {
+
+    @Singleton
+    @Provides
+    fun provideRecipeMapper(): RecipeDtoMapper {
+        return RecipeDtoMapper()
+    }
 
     @Singleton
     @Provides

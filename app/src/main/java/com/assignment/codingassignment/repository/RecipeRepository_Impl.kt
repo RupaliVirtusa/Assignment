@@ -1,32 +1,28 @@
 package com.assignment.codingassignment.repository
 
-import com.assignment.codingassignment.domain.Recipe
-import com.assignment.codingassignment.network.ReceipeState
+import androidx.lifecycle.MutableLiveData
+import com.assignment.codingassignment.network.RecipeListState
 import com.assignment.codingassignment.network.RecipeService
-import com.assignment.codingassignment.network.model.RecipeDtoMapper
-import com.example.hiltwithmvvm.network.responses.RecipeSearchResponse
 
-class RecipeRepository_Impl(
+class RecipeRepositoryImpl(
     private val recipeService: RecipeService,
-    private val mapper: RecipeDtoMapper
 ) : RecipeRepository {
+
+
     override suspend fun search(
         token: String,
         page: Int,
         query: String
-    ): ReceipeState<List<Recipe>> {
-        val response = recipeService.search("authToken", 1, "chicken")
-
-        return if (response.isSuccessful) {
-            val responseBody = response.body()
-            if (responseBody != null) {
-                ReceipeState.Success(mapper.toDomainList(response.body()?.recipes!!))
-            } else {
-                ReceipeState.Error(response.message())
-            }
+    ): MutableLiveData<RecipeListState> {
+        var recipeState = MutableLiveData<RecipeListState>()
+        recipeState.value = RecipeListState.Loading
+        val response = recipeService.search(token, page, query)
+        if (response.isSuccessful) {
+            recipeState.value = response.body()?.let { RecipeListState.RecipeListLoaded(it) }
         } else {
-            ReceipeState.Error(response.message())
+            recipeState.value = RecipeListState.Error(response.errorBody().toString())
         }
-
+        return recipeState
     }
+
 }
