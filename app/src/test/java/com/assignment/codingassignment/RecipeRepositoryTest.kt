@@ -2,6 +2,8 @@ package com.assignment.codingassignment
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.assignment.codingassignment.network.RecipeListState
 import com.assignment.codingassignment.network.RecipeService
 import com.assignment.codingassignment.network.model.RecipeDto
@@ -16,25 +18,22 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.MockitoAnnotations
 
-@HiltAndroidTest
+@RunWith(AndroidJUnit4::class)
 class RecipeRepositoryTest {
-    @get:Rule
-    var hiltRule = HiltAndroidRule(this)
-
     @Mock
     lateinit var recipeTestService: RecipeTestService
 
-    @Mock
     lateinit var context: Context
+
 
     @Before
     fun setup() {
-        hiltRule.inject()
-
+        context = ApplicationProvider.getApplicationContext()
     }
 
     @Test

@@ -1,7 +1,10 @@
 package com.assignment.codingassignment
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.test.core.app.ApplicationProvider
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.assignment.codingassignment.network.RecipeListState
 import com.assignment.codingassignment.network.model.RecipeDto
 import com.assignment.codingassignment.network.responses.RecipeSearchResponse
@@ -12,19 +15,18 @@ import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import junit.framework.TestCase.assertTrue
 import kotlinx.coroutines.runBlocking
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 
-@HiltAndroidTest
+@RunWith(AndroidJUnit4::class)
 class RecipeViewModelTest {
-
-    @get:Rule
-    var hiltRule = HiltAndroidRule(this)
 
     @Mock
     lateinit var repository: RecipeRepository
@@ -33,10 +35,10 @@ class RecipeViewModelTest {
     lateinit var observer: Observer<List<RecipeDto>>
 
     private lateinit var viewModel: RecipeListViewModel
+    private val context: Context = ApplicationProvider.getApplicationContext()
 
     @Before
     fun setup() {
-        hiltRule.inject()
         viewModel = RecipeListViewModel(repository, Constants.APP_TOKEN)
     }
 
