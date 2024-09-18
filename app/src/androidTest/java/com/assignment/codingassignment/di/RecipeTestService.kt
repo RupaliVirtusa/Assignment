@@ -1,4 +1,4 @@
-package com.assignment.codingassignment.network
+package com.assignment.codingassignment.di
 
 import com.assignment.codingassignment.network.responses.RecipeSearchResponse
 import retrofit2.Response
@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.Query
 
-interface RecipeService {
+interface RecipeTestService {
     @GET("search")
     open suspend fun search(
         @Header("Authorization") token: String,

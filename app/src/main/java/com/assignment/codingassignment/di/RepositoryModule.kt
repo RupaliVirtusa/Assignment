@@ -1,7 +1,6 @@
 package com.assignment.codingassignment.di
 
 import com.assignment.codingassignment.network.RecipeService
-import com.assignment.codingassignment.network.model.RecipeDtoMapper
 import com.assignment.codingassignment.repository.RecipeRepository
 import com.assignment.codingassignment.repository.RecipeRepositoryImpl
 import dagger.Module
@@ -17,8 +16,7 @@ object RepositoryModule {
     @Singleton
     @Provides
     fun provideRepository(
-        recipeService: RecipeService,
-        recipeDtoMapper: RecipeDtoMapper
+        recipeService: RecipeService
     ): RecipeRepository {
         return RecipeRepositoryImpl(recipeService)
     }

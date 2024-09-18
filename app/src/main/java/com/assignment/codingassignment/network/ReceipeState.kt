@@ -1,6 +1,6 @@
 package com.assignment.codingassignment.network
 
-import com.example.hiltwithmvvm.network.responses.RecipeSearchResponse
+import com.assignment.codingassignment.network.responses.RecipeSearchResponse
 import retrofit2.Response
 
 sealed class ReceipeState<out T> {

@@ -1,4 +1,4 @@
-package com.assignment.codingassignment.network
+package com.assignment.codingassignment.utils
 
 class Constants {
     companion object {

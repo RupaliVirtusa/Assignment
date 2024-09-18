@@ -1,4 +1,4 @@
-package com.example.hiltwithmvvm.network.responses
+package com.assignment.codingassignment.network.responses
 
 import com.assignment.codingassignment.network.model.RecipeDto
 import com.google.gson.annotations.SerializedName
