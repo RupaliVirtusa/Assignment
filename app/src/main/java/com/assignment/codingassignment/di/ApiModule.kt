@@ -16,12 +16,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ApiModule {
 
-    /* @Singleton
-     @Provides
-     fun provideRecipeMapper(): RecipeDtoMapper {
-         return RecipeDtoMapper()
-     }*/
-
     @Singleton
     @Provides
     fun provideRecipeService(): RecipeService {

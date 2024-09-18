@@ -5,8 +5,8 @@ import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.rule.ActivityTestRule
-import com.assignment.codingassignment.di.ApiModule
 import com.assignment.codingassignment.di.ApplicationTestModule
+import com.assignment.codingassignment.presentation.MainActivity
 import com.assignment.codingassignment.utils.Constants
 import com.assignment.codingassignment.util.FileReader
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -16,7 +16,6 @@ import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import okhttp3.mockwebserver.RecordedRequest
-import okhttp3.mockwebserver.SocketPolicy
 import org.hamcrest.CoreMatchers
 import org.junit.After
 import org.junit.Before

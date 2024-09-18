@@ -34,7 +34,7 @@ class RecipeListViewModel @Inject constructor(
         getAllRecipes()
     }
 
-    private fun getAllRecipes() {
+    fun getAllRecipes() {
         job = viewModelScope.launch(exceptionHandler) {
             val result = repository.search(token = token, page = 1, query = "Chicken")
             alRecipeList.value = result.value
