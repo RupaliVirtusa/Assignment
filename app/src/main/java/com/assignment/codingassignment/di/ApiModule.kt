@@ -12,6 +12,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named
 import javax.inject.Singleton
 
+/**
+ * This Module provides the retrofit instance and api-service instance
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object ApiModule {

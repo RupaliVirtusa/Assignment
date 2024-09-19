@@ -1,15 +1,15 @@
 {
-  "count": 118,
+  "count": 30,
   "next": "http://127.0.0.1:8000/api/recipe/search/?page=3&query=beef+carrot+potato+onion",
   "previous": "https://food2fork.ca/api/recipe/search/?query=beef+carrot+potato+onion",
   "results": [
     {
       "pk": 583,
-      "title": "Pizza Potato Skins",
+      "title": "All Recipes",
       "publisher": "mitch",
       "featured_image": "https://nyc3.digitaloceanspaces.com/food2fork/food2fork-static/featured_images/583/featured_image.png",
       "rating": 16,
-      "source_url": "http://thepioneerwoman.com/cooking/2013/04/pizza-potato-skins/",
+      "source_url": "http://cookieandkate.com/2014/sweet-potato-and-black-bean-tacos-with-avocado-pepita-dip/",
       "description": "N/A",
       "cooking_instructions": null,
       "ingredients": [

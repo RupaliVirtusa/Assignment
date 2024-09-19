@@ -39,7 +39,7 @@ class RecipeListViewModel @Inject constructor(
     fun getAllRecipes() {
         if (NetworkHelper.isNetworkAvailable(app)) {
             job = viewModelScope.launch(exceptionHandler) {
-                val result = repository.search(token = token, page = 1, query = "Chicken")
+                val result = repository.search(token = "token", page = 1, query = "Chicken")
                 alRecipeList.value = result.value
             }
         } else {

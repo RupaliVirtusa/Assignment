@@ -2,6 +2,7 @@ package com.assignment.codingassignment.api
 
 import com.assignment.codingassignment.BuildConfig
 import com.assignment.codingassignment.UtilityTest.Companion.enqueueMockResponse
+import com.assignment.codingassignment.UtilityTest.Companion.enqueueRecipeMockResponse
 import com.assignment.codingassignment.network.RecipeService
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
@@ -10,7 +11,9 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito.`when`
 import org.mockito.junit.MockitoJUnitRunner
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -31,10 +34,23 @@ class RecipeApiTest {
     }
 
     @Test
-    fun getSearch_sentRequest_receivedExpected() {
-
+    fun getSearch_receivedResponse_correctPageSize() {
         runBlocking {
-            enqueueMockResponse("recipe.json")
+            val recipeSearchResponse = enqueueRecipeMockResponse("recipe.json")
+
+            // Call the API
+            val responseBody =
+                service.search(BuildConfig.APP_TOKEN, 3, "beef carrot potato onion").body()
+            val recipesList = responseBody?.recipes
+
+            assertThat(responseBody).isNotNull()
+            assertThat(recipesList?.size).isEqualTo(recipeSearchResponse.count)
+        }
+    }
+
+    @Test
+    fun getSearch_sentRequest_receivedExpected() {
+        runBlocking {
             val responseBody =
                 service.search(BuildConfig.APP_TOKEN, 3, "beef carrot potato onion").body()
             val request = server.takeRequest()
@@ -43,24 +59,13 @@ class RecipeApiTest {
         }
     }
 
-    @Test
-    fun getSearch_receivedResponse_correctPageSize() {
-        runBlocking {
-            enqueueMockResponse("recipe.json")
-            val responseBody =
-                service.search(BuildConfig.APP_TOKEN, 3, "beef carrot potato onion").body()
-            val recipesList = responseBody?.recipes
-            assertThat(responseBody).isNotNull()
-            assertThat(recipesList?.size).isEqualTo(30)
-        }
-    }
 
     @Test
     fun getSearch_receivedResponse_emptySize() {
         runBlocking {
             enqueueMockResponse("recipe.json")
             val responseBody =
-                service.search(BuildConfig.APP_TOKEN, 0, "").body()
+                service.search("", 0, "").body()
             val recipesList = responseBody?.recipes
             assertThat(recipesList?.size).isEqualTo(null)
         }
@@ -69,14 +74,14 @@ class RecipeApiTest {
     @Test
     fun getSearch_receivedResponse_correctContent() {
         runBlocking {
-            enqueueMockResponse("recipe.json")
+            val recipeSearchResponse = enqueueRecipeMockResponse("recipe.json")
             val responseBody =
                 service.search(BuildConfig.APP_TOKEN, 3, "beef carrot potato onion").body()
             val recipesList = responseBody!!.recipes
             val recipe = recipesList[0]
-            assertThat(recipe.title).isEqualTo("All Recipes")
-            assertThat(recipe.description).isEqualTo("N/A")
-            assertThat(recipe.sourceUrl).isEqualTo("http://cookieandkate.com/2014/sweet-potato-and-black-bean-tacos-with-avocado-pepita-dip/")
+            assertThat(recipe.title).isEqualTo(recipeSearchResponse.recipes[0].title)
+            assertThat(recipe.description).isEqualTo(recipeSearchResponse.recipes[0].description)
+            assertThat(recipe.sourceUrl).isEqualTo(recipeSearchResponse.recipes[0].sourceUrl)
         }
     }
 

@@ -5,6 +5,9 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 
+/**
+ * Helper class to check internet connection
+ */
 object NetworkHelper {
     fun isNetworkAvailable(context: Context?): Boolean {
         if (context == null) return false
