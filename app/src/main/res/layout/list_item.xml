@@ -5,22 +5,23 @@
     <data>
 
         <variable
-            name="receipe"
+            name="recipe"
             type="com.assignment.codingassignment.network.model.RecipeDto" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:padding="@dimen/_8sdp">
 
         <ImageView
             android:id="@+id/image"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_200sdp"
             android:src="@drawable/ic_launcher_background"
-            app:featuredImage="@{receipe.featuredImage}"
+            app:featuredImage="@{recipe.featuredImage}"
             app:layout_constraintLeft_toLeftOf="parent"
+            android:contentDescription="@string/no_recipes"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,15 +29,15 @@
             android:id="@+id/text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="@{receipe.title}"
+            android:padding="@dimen/_8sdp"
+            android:text="@{recipe.title}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/image" />
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/_1sdp"
             android:background="@color/black"
             android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@id/text" />

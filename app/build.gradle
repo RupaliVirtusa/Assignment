@@ -18,7 +18,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
+        buildConfigField("String", "BASE_URL", BASE_URL)
+        buildConfigField("String", "APP_TOKEN", APP_TOKEN)
         vectorDrawables {
             useSupportLibrary true
         }
@@ -38,6 +39,9 @@ android {
         tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
             kotlinOptions.jvmTarget = "18"
         }
+    }
+    buildFeatures {
+        buildConfig = true
     }
     buildFeatures {
         compose true
@@ -103,11 +107,13 @@ dependencies {
     testImplementation 'com.google.dagger:hilt-android-testing:2.44'
     kaptTest 'com.google.dagger:hilt-android-compiler:2.44'
     kaptAndroidTest 'com.google.dagger:hilt-android-compiler:2.38.1'
-    testImplementation ("androidx.test.ext:junit-ktx:1.1.5")
-    testImplementation ("org.robolectric:robolectric:4.4")
+    testImplementation("androidx.test.ext:junit-ktx:1.1.5")
+    testImplementation("org.robolectric:robolectric:4.4")
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.9.0'
+    testImplementation "com.google.truth:truth:1.1"
 
-    
     implementation 'com.github.bumptech.glide:glide:4.16.0'
+    implementation "com.intuit.sdp:sdp-android:$intiut_sdp"
 }
 kapt {
     correctErrorTypes = true

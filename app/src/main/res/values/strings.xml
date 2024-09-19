@@ -2,5 +2,6 @@
     <string name="app_name">CodingAssignment</string>
     <string name="no_internet">No Internet</string>
     <string name="no_recipes">No Recipes available</string>
+    <string name="recipe_count">Recipe Count :</string>
 
 </resources>

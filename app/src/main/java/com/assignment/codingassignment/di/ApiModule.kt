@@ -1,6 +1,6 @@
 package com.assignment.codingassignment.di
 
-import com.assignment.codingassignment.utils.Constants
+import com.assignment.codingassignment.BuildConfig
 import com.assignment.codingassignment.network.RecipeService
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -18,17 +18,22 @@ object ApiModule {
 
     @Singleton
     @Provides
-    fun provideRecipeService(): RecipeService {
-        return Retrofit.Builder().baseUrl(Constants.BASE_URL)
+    fun provideRecipeService(retrofit: Retrofit): RecipeService {
+        return retrofit.create(RecipeService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRetrofit(): Retrofit {
+        return Retrofit.Builder().baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
             .build()
-            .create(RecipeService::class.java)
     }
 
     @Singleton
     @Provides
     @Named("auth_token")
     fun provideAuthToken(): String {
-        return Constants.APP_TOKEN
+        return BuildConfig.APP_TOKEN
     }
 }

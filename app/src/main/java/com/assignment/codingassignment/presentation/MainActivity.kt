@@ -14,13 +14,13 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val viewModel: RecipeListViewModel by viewModels()
-    lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         val recipeAdapter = RecipeAdapter(emptyList())
-        binding.rvReceipe.apply {
+        binding.rvRecipe.apply {
             layoutManager = context?.let { LinearLayoutManager(it) }
             setHasFixedSize(true)
             adapter = recipeAdapter
@@ -33,17 +33,19 @@ class MainActivity : ComponentActivity() {
 
                 is RecipeListState.RecipeListLoaded -> {
                     val alRecipes = recipeState.response.recipes
-                    binding.tvRecipeCount.text = "Recipe Count : " + recipeState.response.count
-                    binding.rvReceipe.visibility = View.VISIBLE
+                    binding.tvRecipeCount.text =
+                        getString(R.string.recipe_count) + recipeState.response.count
+                    binding.rvRecipe.visibility = View.VISIBLE
                     binding.progressCircular.visibility = View.GONE
                     recipeAdapter.updateReceipeList(alRecipes)
                 }
 
                 is RecipeListState.Error -> {
-                    binding.rvReceipe.visibility = View.GONE
+                    binding.rvRecipe.visibility = View.GONE
                     binding.progressCircular.visibility = View.GONE
                 }
             }
         }
     }
+
 }

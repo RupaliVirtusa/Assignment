@@ -7,7 +7,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.rule.ActivityTestRule
 import com.assignment.codingassignment.di.ApplicationTestModule
 import com.assignment.codingassignment.presentation.MainActivity
-import com.assignment.codingassignment.utils.Constants
 import com.assignment.codingassignment.util.FileReader
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -47,7 +46,7 @@ class RecipeActivityTestMockServer {
 
     private val dispatcher = object : Dispatcher() {
         override fun dispatch(request: RecordedRequest): MockResponse {
-            if (request.getHeader("Authorization")!!.equals(Constants.APP_TOKEN)) {
+            if (request.getHeader("Authorization")!! == BuildConfig.APP_TOKEN) {
                 return MockResponse()
                     .setResponseCode(200)
                     .setBody(FileReader.readStringFromFile("recipe.json"))
@@ -65,7 +64,7 @@ class RecipeActivityTestMockServer {
         Thread.sleep(3000)
         Espresso.onView(withId(R.id.tvRecipeCount))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-        Espresso.onView(withId(R.id.rvReceipe))
+        Espresso.onView(withId(R.id.rvRecipe))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
 
     }
@@ -79,7 +78,7 @@ class RecipeActivityTestMockServer {
         }
         mActivityRule.launchActivity(null)
         Thread.sleep(3000)
-        Espresso.onView(withId(R.id.rvReceipe))
+        Espresso.onView(withId(R.id.rvRecipe))
             .check(ViewAssertions.matches(CoreMatchers.not(ViewMatchers.isDisplayed())))
         Espresso.onView(withId(R.id.tvRecipeCount))
             .check(ViewAssertions.matches(CoreMatchers.not(ViewMatchers.isDisplayed())))

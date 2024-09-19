@@ -1,10 +1,8 @@
 package com.assignment.codingassignment.presentation
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.compose.ui.platform.LocalContext
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -13,12 +11,12 @@ import com.assignment.codingassignment.databinding.ListItemBinding
 import com.assignment.codingassignment.network.model.RecipeDto
 import com.bumptech.glide.Glide
 
-class RecipeAdapter(var receipeList: List<RecipeDto>) :
-    RecyclerView.Adapter<RecipeAdapter.ReceipeHolder>() {
+class RecipeAdapter(private var recipeList: List<RecipeDto>) :
+    RecyclerView.Adapter<RecipeAdapter.RecipeHolder>() {
 
     var inflater: LayoutInflater? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReceipeHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeHolder {
         if (inflater == null) {
             inflater = LayoutInflater.from(parent.context)
         }
@@ -26,29 +24,28 @@ class RecipeAdapter(var receipeList: List<RecipeDto>) :
         val itemBinding: ListItemBinding =
             DataBindingUtil.inflate(inflater!!, R.layout.list_item, parent, false)
 
-        return ReceipeHolder(itemBinding, parent.context)
+        return RecipeHolder(itemBinding)
     }
 
     override fun getItemCount(): Int {
-        return receipeList.size
+        return recipeList.size
     }
 
-    override fun onBindViewHolder(holder: ReceipeHolder, position: Int) {
-        holder.bind(receipeList[position])
+    override fun onBindViewHolder(holder: RecipeHolder, position: Int) {
+        holder.bind(recipeList[position])
     }
 
     fun updateReceipeList(list: List<RecipeDto>) {
-        receipeList = list
+        recipeList = list
         notifyDataSetChanged()
     }
 
-    class ReceipeHolder(itemView: ListItemBinding, context: Context) :
+    class RecipeHolder(itemView: ListItemBinding) :
         RecyclerView.ViewHolder(itemView.root) {
-        var receipeView: ListItemBinding
-        var mContext = context
+        var recipeView: ListItemBinding
 
         init {
-            receipeView = itemView
+            recipeView = itemView
         }
 
         companion object {
@@ -61,8 +58,8 @@ class RecipeAdapter(var receipeList: List<RecipeDto>) :
             }
         }
 
-        fun bind(receipe: RecipeDto) {
-            receipeView.receipe = receipe
+        fun bind(recipe: RecipeDto) {
+            recipeView.recipe = recipe
         }
     }
 }
