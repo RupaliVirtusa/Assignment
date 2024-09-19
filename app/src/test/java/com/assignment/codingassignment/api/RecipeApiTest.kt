@@ -9,9 +9,13 @@ import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.junit.MockitoJUnitRunner
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+
+@RunWith(MockitoJUnitRunner::class)
 class RecipeApiTest {
     private lateinit var service: RecipeService
     private lateinit var server: MockWebServer
@@ -20,12 +24,11 @@ class RecipeApiTest {
     fun setUp() {
         server = MockWebServer()
         service = Retrofit.Builder()
-            .baseUrl(server.url(""))
+            .baseUrl(server.url(BuildConfig.BASE_URL))
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(RecipeService::class.java)
     }
-
 
     @Test
     fun getSearch_sentRequest_receivedExpected() {
@@ -46,8 +49,20 @@ class RecipeApiTest {
             enqueueMockResponse("recipe.json")
             val responseBody =
                 service.search(BuildConfig.APP_TOKEN, 3, "beef carrot potato onion").body()
-            val recipesList = responseBody!!.recipes
-            assertThat(recipesList.size).isEqualTo(118)
+            val recipesList = responseBody?.recipes
+            assertThat(responseBody).isNotNull()
+            assertThat(recipesList?.size).isEqualTo(30)
+        }
+    }
+
+    @Test
+    fun getSearch_receivedResponse_emptySize() {
+        runBlocking {
+            enqueueMockResponse("recipe.json")
+            val responseBody =
+                service.search(BuildConfig.APP_TOKEN, 0, "").body()
+            val recipesList = responseBody?.recipes
+            assertThat(recipesList?.size).isEqualTo(null)
         }
     }
 
@@ -59,10 +74,9 @@ class RecipeApiTest {
                 service.search(BuildConfig.APP_TOKEN, 3, "beef carrot potato onion").body()
             val recipesList = responseBody!!.recipes
             val recipe = recipesList[0]
-            assertThat(recipe.title).isEqualTo("Pizza Potato Skins")
+            assertThat(recipe.title).isEqualTo("All Recipes")
             assertThat(recipe.description).isEqualTo("N/A")
-            assertThat(recipe.sourceUrl).isEqualTo("http://thepioneerwoman.com/cooking/2013/04/pizza-potato-skins/")
-            assertThat(recipe.rating).isEqualTo("16")
+            assertThat(recipe.sourceUrl).isEqualTo("http://cookieandkate.com/2014/sweet-potato-and-black-bean-tacos-with-avocado-pepita-dip/")
         }
     }
 

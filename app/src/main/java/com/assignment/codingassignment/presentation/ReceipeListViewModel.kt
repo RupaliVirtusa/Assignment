@@ -21,8 +21,6 @@ class RecipeListViewModel @Inject constructor(
     @Named("auth_token") private val token: String,
     private val app: Application
 ) : ViewModel() {
-
-
     val alRecipeList = MutableLiveData<RecipeListState>()
 
     var job: Job? = null
