@@ -18,9 +18,10 @@
             android:id="@+id/image"
             android:layout_width="@dimen/_200sdp"
             android:layout_height="@dimen/_200sdp"
-            android:src="@drawable/ic_launcher_background"
+            android:src="@drawable/empty_plate"
             app:featuredImage="@{recipe.featuredImage}"
             app:layout_constraintLeft_toLeftOf="parent"
+            android:scaleType="fitXY"
             android:contentDescription="@string/no_recipes"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -31,6 +32,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/_8sdp"
             android:text="@{recipe.title}"
+            android:textColor="@color/black"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/image" />

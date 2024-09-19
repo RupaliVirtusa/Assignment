@@ -1,10 +1,13 @@
 package com.assignment.codingassignment.presentation
 
+import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.assignment.codingassignment.R
 import com.assignment.codingassignment.network.RecipeListState
 import com.assignment.codingassignment.repository.RecipeRepository
+import com.assignment.codingassignment.utils.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Job
@@ -15,7 +18,8 @@ import javax.inject.Named
 @HiltViewModel
 class RecipeListViewModel @Inject constructor(
     private val repository: RecipeRepository,
-    private @Named("auth_token") val token: String
+    @Named("auth_token") private val token: String,
+    private val app: Application
 ) : ViewModel() {
 
 
@@ -35,13 +39,16 @@ class RecipeListViewModel @Inject constructor(
     }
 
     fun getAllRecipes() {
-        job = viewModelScope.launch(exceptionHandler) {
-            val result = repository.search(token = token, page = 1, query = "Chicken")
-            alRecipeList.value = result.value
+        if (NetworkHelper.isNetworkAvailable(app)) {
+            job = viewModelScope.launch(exceptionHandler) {
+                val result = repository.search(token = token, page = 1, query = "Chicken")
+                alRecipeList.value = result.value
+            }
+        } else {
+            alRecipeList.value = RecipeListState.Error(app.getString(R.string.no_internet))
         }
 
     }
-
 
     override fun onCleared() {
         super.onCleared()

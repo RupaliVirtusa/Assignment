@@ -10,4 +10,5 @@ ext{
     intiut_sdp='1.0.4'
     retrofit = "2.9.0"
     appcompat_version = "1.6.1"
+    nav_version ="2.8.1"
 }

@@ -13,14 +13,12 @@ import com.bumptech.glide.Glide
 
 class RecipeAdapter(private var recipeList: List<RecipeDto>) :
     RecyclerView.Adapter<RecipeAdapter.RecipeHolder>() {
-
     var inflater: LayoutInflater? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeHolder {
         if (inflater == null) {
             inflater = LayoutInflater.from(parent.context)
         }
-
         val itemBinding: ListItemBinding =
             DataBindingUtil.inflate(inflater!!, R.layout.list_item, parent, false)
 
