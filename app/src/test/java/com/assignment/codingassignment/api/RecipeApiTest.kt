@@ -1,6 +1,7 @@
 package com.assignment.codingassignment.api
 
 import com.assignment.codingassignment.BuildConfig
+import com.assignment.codingassignment.UtilityTest
 import com.assignment.codingassignment.UtilityTest.Companion.enqueueMockResponse
 import com.assignment.codingassignment.UtilityTest.Companion.enqueueRecipeMockResponse
 import com.assignment.codingassignment.network.RecipeService
@@ -26,11 +27,7 @@ class RecipeApiTest {
     @Before
     fun setUp() {
         server = MockWebServer()
-        service = Retrofit.Builder()
-            .baseUrl(server.url(BuildConfig.BASE_URL))
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(RecipeService::class.java)
+        service = UtilityTest.getRecipeService()
     }
 
     @Test

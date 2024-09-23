@@ -76,7 +76,6 @@ class RecipeViewModelTest {
 
         viewModel.getAllRecipes()
         verify(observer).onChanged((expectedData.value as RecipeListState.RecipeListLoaded).response.recipes)
-
     }
 
 }

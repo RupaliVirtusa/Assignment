@@ -51,6 +51,7 @@ android {
     }
     testOptions {
         unitTests.includeAndroidResources = true
+        unitTests.returnDefaultValues = true
     }
     packagingOptions {
         resources {
@@ -117,6 +118,8 @@ dependencies {
 
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
 }
 kapt {
     correctErrorTypes = true
