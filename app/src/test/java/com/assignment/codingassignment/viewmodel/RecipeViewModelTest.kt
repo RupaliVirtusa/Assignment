@@ -5,6 +5,7 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.assignment.codingassignment.BuildConfig
+import com.assignment.codingassignment.UtilityTest
 import com.assignment.codingassignment.network.RecipeListState
 import com.assignment.codingassignment.network.RecipeService
 import com.assignment.codingassignment.network.model.RecipeDto
@@ -31,7 +32,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RecipeViewModelTest {
 
     lateinit var repository: RecipeRepository
-    private lateinit var service: RecipeService
 
     @Mock
     @BindValue
@@ -45,14 +45,8 @@ class RecipeViewModelTest {
 
     @Before
     fun setup() {
-
         server = MockWebServer()
-        service = Retrofit.Builder()
-            .baseUrl(server.url(BuildConfig.BASE_URL))
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(RecipeService::class.java)
-        repository = RecipeRepositoryImpl(service)
+        repository = RecipeRepositoryImpl(UtilityTest.getRecipeService())
         viewModel = RecipeListViewModel(repository, BuildConfig.APP_TOKEN, context as Application)
     }
 
@@ -68,7 +62,7 @@ class RecipeViewModelTest {
         )
         Mockito.`when`(
             repository.search(
-                "Constants.APP_TOKEN",
+                BuildConfig.APP_TOKEN,
                 1,
                 "Chicken"
             )
