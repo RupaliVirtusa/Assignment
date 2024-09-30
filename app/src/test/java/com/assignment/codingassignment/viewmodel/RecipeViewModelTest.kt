@@ -1,31 +1,25 @@
 package com.assignment.codingassignment.viewmodel
 
-import android.app.Application
-import android.content.Context
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.assignment.codingassignment.AssignmentApplication
 import com.assignment.codingassignment.BuildConfig
 import com.assignment.codingassignment.UtilityTest
 import com.assignment.codingassignment.network.RecipeListState
-import com.assignment.codingassignment.network.RecipeService
-import com.assignment.codingassignment.network.model.RecipeDto
 import com.assignment.codingassignment.network.responses.RecipeSearchResponse
 import com.assignment.codingassignment.presentation.RecipeListViewModel
 import com.assignment.codingassignment.repository.RecipeRepository
 import com.assignment.codingassignment.repository.RecipeRepositoryImpl
-import dagger.hilt.android.testing.BindValue
+import com.assignment.codingassignment.util.MainCoroutineRule
+import com.assignment.codingassignment.util.getOrAwaitValueTest
+import com.google.common.truth.Truth
 import dagger.hilt.android.testing.HiltAndroidTest
-import kotlinx.coroutines.runBlocking
-import okhttp3.mockwebserver.MockWebServer
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TestRule
 import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 @RunWith(MockitoJUnitRunner::class)
 @HiltAndroidTest
@@ -33,43 +27,43 @@ class RecipeViewModelTest {
 
     lateinit var repository: RecipeRepository
 
-    @Mock
-    @BindValue
-    lateinit var context: Context
+    @get:Rule
+    val testInstantTaskExecutorRule: TestRule = InstantTaskExecutorRule()
 
-    @Mock
-    lateinit var observer: Observer<List<RecipeDto>>
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule()
 
     private lateinit var viewModel: RecipeListViewModel
-    private lateinit var server: MockWebServer
 
     @Before
     fun setup() {
-        server = MockWebServer()
+        val context = AssignmentApplication()
         repository = RecipeRepositoryImpl(UtilityTest.getRecipeService())
-        viewModel = RecipeListViewModel(repository, BuildConfig.APP_TOKEN, context as Application)
+        viewModel = RecipeListViewModel(repository, BuildConfig.APP_TOKEN, context)
     }
 
+
+    @ExperimentalCoroutinesApi
     @Test
-    fun fetchData_returnsExpectedData() = runBlocking {
-        val expectedData = MutableLiveData<RecipeListState>()
-
-        expectedData.value = RecipeListState.RecipeListLoaded(
-            RecipeSearchResponse(
-                count = 10,
-                recipes = listOf()
-            )
+    fun fetchData_returnsExpectedData() {
+        val expectedData = RecipeSearchResponse(
+            count = 30,
+            recipes = listOf()
         )
-        Mockito.`when`(
-            repository.search(
-                BuildConfig.APP_TOKEN,
-                1,
-                "Chicken"
-            )
-        ).thenReturn(expectedData)
-
         viewModel.getAllRecipes()
-        verify(observer).onChanged((expectedData.value as RecipeListState.RecipeListLoaded).response.recipes)
-    }
+        val recipeList = viewModel.alRecipeList.getOrAwaitValueTest()
+        recipeList.apply {
+            when (this) {
+                is RecipeListState.RecipeListLoaded -> {
+                    Truth.assertThat(response).isNotNull()
+                    Truth.assertThat(response.recipes.size)
+                        .isEqualTo(expectedData.count)
+                }
 
+                else -> {
+
+                }
+            }
+        }
+    }
 }
